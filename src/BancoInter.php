@@ -337,7 +337,7 @@ class BancoInter
 
     public function createWebhook(Webhook $webhook): bool
     {
-        $this->controllerPost("/cobranca/v2/boletos/webhook", $webhook);
+        $this->controllerPost("/cobranca/v2/boletos/webhook", $webhook, null, true, true);
         return true;
     }
 
