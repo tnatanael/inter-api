@@ -281,7 +281,7 @@ class BancoInter
         return $reply;
     }
 
-    public function controllerGet(string $url, array $http_params = null)
+    public function controllerGet(string $url, array $http_params = null, bool $useDelete = false)
     {
 
         if ($http_params == null) {
@@ -298,7 +298,10 @@ class BancoInter
         while ($retry > 0) {
             $this->controllerInit($http_params);
             curl_setopt($this->curl, CURLOPT_URL, $this->apiBaseURL . $url);
-            curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'GET');
+
+            $method = ($useDelete) ? 'DELETE' : 'GET';
+
+            curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $method);
 
             $curlReply = curl_exec($this->curl);
             if (!$curlReply) {
@@ -332,15 +335,21 @@ class BancoInter
         return $reply;
     }
 
-    /**
-     * Transmite um boleto para o Banco Inter
-     *
-     * @param  Boleto $boleto Boleto a ser transmitido
-     * @return Boleto
-     */
     public function createWebhook(Webhook $webhook): bool
     {
         $this->controllerPost("/cobranca/v2/boletos/webhook", $webhook);
+        return true;
+    }
+
+    public function getWebhook(): string
+    {
+        $reply = $this->controllerGet("/cobranca/v2/boletos/webhook");
+        return $reply;
+    }
+
+    public function deleteWebhook(): bool
+    {
+        $this->controllerGet("/cobranca/v2/boletos/webhook", null, true);
         return true;
     }
 
