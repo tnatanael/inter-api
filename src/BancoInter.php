@@ -4,6 +4,7 @@ namespace ctodobom\APInterPHP;
 
 use ctodobom\APInterPHP\Cobranca\Boleto;
 use Closure;
+use ctodobom\APInterPHP\Cobranca\Webhook;
 
 define("INTER_BAIXA_ACERTOS", "ACERTOS");
 define("INTER_BAIXA_PEDIDOCLIENTE", "APEDIDODOCLIENTE");
@@ -215,7 +216,8 @@ class BancoInter
         string $url,
         \JsonSerializable $data,
         array $http_params = null,
-        bool $postJson = true
+        bool $postJson = true,
+        bool $usePut = false
     ) {
 
         if ($http_params == null) {
@@ -244,7 +246,9 @@ class BancoInter
             $this->controllerInit($http_params);
             curl_setopt($this->curl, CURLOPT_URL, $this->apiBaseURL . $url);
 
-            curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'POST');
+            $method = ($usePut) ? 'PUT' : 'POST';
+
+            curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $method);
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $prepared_data);
 
             $curlReply = curl_exec($this->curl);
@@ -326,6 +330,18 @@ class BancoInter
         }
 
         return $reply;
+    }
+
+    /**
+     * Transmite um boleto para o Banco Inter
+     *
+     * @param  Boleto $boleto Boleto a ser transmitido
+     * @return Boleto
+     */
+    public function createWebhook(Webhook $webhook): bool
+    {
+        $this->controllerPost("/cobranca/v2/boletos/webhook", $webhook);
+        return true;
     }
 
     /**
