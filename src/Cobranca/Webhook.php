@@ -8,7 +8,7 @@ class Webhook implements \JsonSerializable
 
     public function getWebhookUrl()
     {
-        return $this->dataEmissao;
+        return $this->webhookUrl;
     }
 
     public function setWebhookUrl($webhookUrl)
