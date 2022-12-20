@@ -335,19 +335,18 @@ class BancoInter
         return $reply;
     }
 
-    public function createWebhook(Webhook $webhook): bool
+    public function createWebhook(Webhook $webhook)
     {
         $this->controllerPost("/cobranca/v2/boletos/webhook", $webhook, null, true, true);
-        return true;
     }
 
-    public function getWebhook(): string
+    public function getWebhook()
     {
         $reply = $this->controllerGet("/cobranca/v2/boletos/webhook");
         return $reply;
     }
 
-    public function deleteWebhook(): bool
+    public function deleteWebhook()
     {
         $this->controllerGet("/cobranca/v2/boletos/webhook", null, true);
         return true;
