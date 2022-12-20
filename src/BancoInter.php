@@ -349,7 +349,6 @@ class BancoInter
     public function deleteWebhook()
     {
         $this->controllerGet("/cobranca/v2/boletos/webhook", null, true);
-        return true;
     }
 
     /**
