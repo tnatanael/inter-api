@@ -4,10 +4,9 @@ namespace ctodobom\APInterPHP\Cobranca\v3;
 
 class Desconto implements \JsonSerializable
 {
-    private $codigo = "NAOTEMDESCONTO";
+    private $codigo = "PERCENTUALDATAINFORMADA";
     private $taxa = 0.0;
     private $quantidadeDias = 0;
-    private $valor = 0.0;
 
     public const NAO_TEM_DESCONTO = 'NAOTEMDESCONTO';
     public const VALOR_FIXO = 'VALORFIXODATAINFORMADA';
@@ -42,14 +41,6 @@ class Desconto implements \JsonSerializable
     }
 
     /**
-     * @return number
-     */
-    public function getValor()
-    {
-        return $this->valor;
-    }
-
-    /**
      * @param string $codigo
      */
     public function setCodigo($codigo)
@@ -66,19 +57,11 @@ class Desconto implements \JsonSerializable
     }
 
     /**
-     * @param number $dias
+     * @param number $valor
      */
     public function setQuantidadeDias($dias)
     {
         $this->quantidadeDias = $dias;
-    }
-
-    /**
-     * @param number $valor
-     */
-    public function setValor($valor)
-    {
-        $this->valor = $valor;
     }
 
     public function jsonSerialize(): array
