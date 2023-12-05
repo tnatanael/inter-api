@@ -4,6 +4,7 @@ namespace ctodobom\APInterPHP;
 
 use ctodobom\APInterPHP\Cobranca\Boleto;
 use Closure;
+use ctodobom\APInterPHP\Cobranca\v3\Boleto as V3Boleto;
 use ctodobom\APInterPHP\Cobranca\Webhook;
 
 define("INTER_BAIXA_ACERTOS", "ACERTOS");
@@ -96,7 +97,6 @@ class BancoInter
         string $certificateFile,
         string $keyFile,
         TokenRequest $tokenRequest,
-        #[Deprecated]
         array $oAuthTokenData = null
     ) {
         $this->accountNumber = $accountNumber;
@@ -349,6 +349,28 @@ class BancoInter
     public function deleteWebhook()
     {
         $this->controllerGet("/cobranca/v2/boletos/webhook", null, true);
+    }
+
+    /**
+     * Cria uma cobrança via boleto pix para o Banco Inter
+     *
+     * @param  V3Boleto $boleto Boleto a ser transmitido
+     * @return V3Boleto
+     */
+    public function createBoletoPix(V3Boleto $boleto): V3Boleto
+    {
+        // garante que o boleto tem um controller
+        $boleto->setController($this);
+
+        $reply = $this->controllerPost("/cobranca/v3/cobrancas", $boleto);
+
+        $replyData = json_decode($reply->body);
+
+        $boleto->setNossoNumero($replyData->nossoNumero);
+        $boleto->setCodigoBarras($replyData->codigoBarras);
+        $boleto->setLinhaDigitavel($replyData->linhaDigitavel);
+
+        return $boleto;
     }
 
     /**
