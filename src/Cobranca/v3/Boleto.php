@@ -320,7 +320,7 @@ class Boleto implements \JsonSerializable
     public function __construct()
     {
         $this->mensagem = new Mensagem();
-        $this->desconto = new Desconto();
+        $this->desconto = null;
         $this->multa = new Multa();
         $this->mora = new Mora();
     }
