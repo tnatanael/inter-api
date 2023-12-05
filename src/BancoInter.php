@@ -366,11 +366,13 @@ class BancoInter
 
         $replyData = json_decode($reply->body);
 
-        var_dump($replyData);
+        $reply = $this->controllerGet("/cobranca/v3/cobrancas/" . $replyData->codigoCobranca);
 
-        $boleto->setNossoNumero($replyData->nossoNumero);
-        $boleto->setCodigoBarras($replyData->codigoBarras);
-        $boleto->setLinhaDigitavel($replyData->linhaDigitavel);
+        $replyData = json_decode($reply->body);
+
+        $boleto->setNossoNumero($replyData->boleto->nossoNumero);
+        $boleto->setCodigoBarras($replyData->boleto->codigoBarras);
+        $boleto->setLinhaDigitavel($replyData->boleto->linhaDigitavel);
 
         return $boleto;
     }
