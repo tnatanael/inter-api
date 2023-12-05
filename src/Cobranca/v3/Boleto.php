@@ -237,7 +237,7 @@ class Boleto implements \JsonSerializable
     }
 
     /**
-     * @param \ctodobom\APInterPHP\Cobranca\Desconto $desconto
+     * @param \ctodobom\APInterPHP\Cobranca\v3\Desconto $desconto
      */
     public function setDesconto($desconto)
     {
