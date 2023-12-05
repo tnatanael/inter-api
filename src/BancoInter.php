@@ -366,6 +366,8 @@ class BancoInter
 
         $replyData = json_decode($reply->body);
 
+        var_dump($replyData);
+
         $boleto->setNossoNumero($replyData->nossoNumero);
         $boleto->setCodigoBarras($replyData->codigoBarras);
         $boleto->setLinhaDigitavel($replyData->linhaDigitavel);
