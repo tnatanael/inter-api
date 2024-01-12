@@ -2,9 +2,10 @@
 
 namespace ctodobom\APInterPHP;
 
-use ctodobom\APInterPHP\Cobranca\Boleto;
 use Closure;
 use ctodobom\APInterPHP\Cobranca\v3\Boleto as V3Boleto;
+use ctodobom\APInterPHP\Cobranca\v3\Webhook as V3Webhook;
+use ctodobom\APInterPHP\Cobranca\Boleto;
 use ctodobom\APInterPHP\Cobranca\Webhook;
 
 define("INTER_BAIXA_ACERTOS", "ACERTOS");
@@ -349,6 +350,22 @@ class BancoInter
     public function deleteWebhook()
     {
         $this->controllerGet("/cobranca/v2/boletos/webhook", null, true);
+    }
+
+    public function createWebhookPix(V3Webhook $webhook)
+    {
+        $this->controllerPost("/cobranca/v3/cobrancas/webhook", $webhook, null, true, true);
+    }
+
+    public function getWebhookPix()
+    {
+        $reply = $this->controllerGet("/cobranca/v3/cobrancas/webhook");
+        return $reply;
+    }
+
+    public function deleteWebhookPix()
+    {
+        $this->controllerGet("/cobranca/v3/cobrancas/webhook", null, true);
     }
 
     /**
