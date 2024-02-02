@@ -383,7 +383,7 @@ class BancoInter
 
         $replyData = json_decode($reply->body);
 
-        $reply = $this->controllerGet("/cobranca/v3/cobrancas/" . $replyData->codigoCobranca);
+        $reply = $this->controllerGet("/cobranca/v3/cobrancas/" . $replyData->codigoSolicitacao);
 
         $replyData = json_decode($reply->body);
 
