@@ -381,14 +381,16 @@ class BancoInter
 
         $reply = $this->controllerPost("/cobranca/v3/cobrancas", $boleto);
 
-        $replyData = $this->getCobranca(json_decode($reply->body)->codigoSolicitacao);
+        $codigoSolicitacao = json_decode($reply->body)->codigoSolicitacao;
+
+        $replyData = $this->getCobranca($codigoSolicitacao);
 
         sleep(2);
         $retries = 0;
 
         while ($replyData->cobranca->situacao == 'EM_PROCESSAMENTO') {
             sleep(10);
-            $replyData = $this->getCobranca(json_decode($reply->body));
+            $replyData = $this->getCobranca($codigoSolicitacao);
             $retries++;
             if ($retries >= 5) break;
         }
